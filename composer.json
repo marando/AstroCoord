@@ -18,8 +18,6 @@
       "email": "a.marando@me.com"
     }
   ],
-  "minimum-stability": "alpha",
-  "prefer-stable": true,
   "autoload": {
     "psr-0": {
       "Marando": "src/"

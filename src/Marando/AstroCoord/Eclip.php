@@ -30,141 +30,154 @@ use \Marando\Units\Distance;
  * @property Angle    $lat  Ecliptic latitude, β
  * @property Distance $dist Observer to target distance
  */
-class Eclip {
+class Eclip
+{
 
-  use Traits\CopyTrait,
-      Traits\EclipFormat;
+    use Traits\CopyTrait;
+    use Traits\EclipFormat;
 
-  //----------------------------------------------------------------------------
-  // Constants
-  //----------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    // Constants
+    //--------------------------------------------------------------------------
 
-  /**
-   * Default Format:
-   * λ 195°41'03".276, β +07°46'10".325
-   */
-  const FORMAT_DEFAULT = 'λ Ld°Lm\'Ls".Lu, β +Bd°Bm\'Bs".Bu';
+    /**
+     * Default Format:
+     * λ 195°41'03".276, β +07°46'10".325
+     */
+    const FORMAT_DEFAULT = 'λ Ld°Lm\'Ls".Lu, β +Bd°Bm\'Bs".Bu';
 
-  /**
-   * Full Format:
-   * λ 195°41'03".276, β +07°46'10".325, 0.768 AU
-   */
-  const FORMAT_FULL = 'λ Ld°Lm\'Ls".Lu, β +Bd°Bm\'Bs".Bu, Da';
+    /**
+     * Full Format:
+     * λ 195°41'03".276, β +07°46'10".325, 0.768 AU
+     */
+    const FORMAT_FULL = 'λ Ld°Lm\'Ls".Lu, β +Bd°Bm\'Bs".Bu, Da';
 
-  /**
-   * Degree Format:
-   * λ 195.68424, β +07.76953
-   */
-  const FORMAT_DEGREES = 'λ L°, β +B°';
+    /**
+     * Degree Format:
+     * λ 195.68424, β +07.76953
+     */
+    const FORMAT_DEGREES = 'λ L°, β +B°';
 
-  /**
-   * Spaced Format:
-   * λ 195 195.68424 03.276, β +07 46 10.325
-   */
-  const FORMAT_SPACED = 'λ Ld Lm Ls.Lu, β +Bd Bm Bs.Bu';
+    /**
+     * Spaced Format:
+     * λ 195 195.68424 03.276, β +07 46 10.325
+     */
+    const FORMAT_SPACED = 'λ Ld Lm Ls.Lu, β +Bd Bm Bs.Bu';
 
-  //----------------------------------------------------------------------------
-  // Constructors
-  //----------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    // Constructors
+    //--------------------------------------------------------------------------
 
-  /**
-   * Creates a new Ecliptic coordinate
-   *
-   * @param Angle    $lon  Ecliptic longitude
-   * @param Angle    $lat  Ecliptic latitude
-   * @param Distance $dist Observer to target distance
-   */
-  public function __construct(Angle $lon, Angle $lat, Distance $dist = null) {
-    // Set position and distance
-    $this->setPosition($lon, $lat);
-    $this->setDistance($dist);
+    /**
+     * Creates a new Ecliptic coordinate
+     *
+     * @param Angle    $lon  Ecliptic longitude
+     * @param Angle    $lat  Ecliptic latitude
+     * @param Distance $dist Observer to target distance
+     */
+    public function __construct(Angle $lon, Angle $lat, Distance $dist = null)
+    {
+        // Set position and distance
+        $this->setPosition($lon, $lat);
+        $this->setDistance($dist);
 
-    // Set default string format
-    $this->format = static::FORMAT_DEFAULT;
-  }
-
-  //----------------------------------------------------------------------------
-  // Properties
-  //----------------------------------------------------------------------------
-
-  /**
-   * Ecliptic longitude
-   * @var Angle
-   */
-  protected $lon;
-
-  /**
-   * Ecliptic latitude
-   * @var Angle
-   */
-  protected $lat;
-
-  /**
-   * Observer to target distance
-   * @var Distance
-   */
-  protected $dist;
-
-  public function __get($name) {
-    switch ($name) {
-      case 'lon':
-      case 'lat':
-      case 'dist':
-        return $this->{$name};
+        // Set default string format
+        $this->format = static::FORMAT_DEFAULT;
     }
-  }
 
-  public function __set($name, $value) {
-    switch ($name) {
-      case 'lon':
-        return $this->setPosition($value, $this->lat);
+    //--------------------------------------------------------------------------
+    // Properties
+    //--------------------------------------------------------------------------
 
-      case 'lat':
-        return $this->setPosition($this->lon, $value);
+    /**
+     * Ecliptic longitude
+     *
+     * @var Angle
+     */
+    private $lon;
 
-      case 'dist':
-        return $this->setDistance($value);
+    /**
+     * Ecliptic latitude
+     *
+     * @var Angle
+     */
+    private $lat;
+
+    /**
+     * Observer to target distance
+     *
+     * @var Distance
+     */
+    private $dist;
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'lon':
+            case 'lat':
+            case 'dist':
+                return $this->{$name};
+        }
     }
-  }
 
-  //----------------------------------------------------------------------------
-  // Functions
-  //----------------------------------------------------------------------------
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'lon':
+                return $this->setPosition($value, $this->lat);
 
-  /**
-   * Sets the altitude and azimuth of this instance
-   *
-   * @param  Angle  $lon Ecliptic longitude
-   * @param  Angle  $lat Ecliptic latitude
-   * @return static
-   */
-  public function setPosition(Angle $lon, Angle $lat) {
-    $this->lon = $lon;
-    $this->lat = $lat;
+            case 'lat':
+                return $this->setPosition($this->lon, $value);
 
-    return $this;
-  }
+            case 'dist':
+                return $this->setDistance($value);
+        }
+    }
 
-  /**
-   * Sets the target to observer distance
-   *
-   * @param  Distance $dist
-   * @return static
-   */
-  public function setDistance(Distance $dist) {
-    $this->dist = $dist;
+    //--------------------------------------------------------------------------
+    // Functions
+    //--------------------------------------------------------------------------
 
-    return $this;
-  }
+    /**
+     * Sets the altitude and azimuth of this instance
+     *
+     * @param  Angle $lon Ecliptic longitude
+     * @param  Angle $lat Ecliptic latitude
+     *
+     * @return static
+     */
+    public function setPosition(Angle $lon, Angle $lat)
+    {
+        $this->lon = $lon;
+        $this->lat = $lat;
 
-  // // // Overrides
+        return $this;
+    }
 
-  /**
-   * Represents this instance as a string
-   * @return string
-   */
-  public function __toString() {
-    return $this->format($this->format);
-  }
+    /**
+     * Sets the target to observer distance
+     *
+     * @param  Distance $dist
+     *
+     * @return static
+     */
+    public function setDistance(Distance $dist)
+    {
+        $this->dist = $dist;
+
+        return $this;
+    }
+
+    // // // Overrides
+
+    /**
+     * Represents this instance as a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->format($this->format);
+    }
 
 }

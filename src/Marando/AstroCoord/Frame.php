@@ -26,88 +26,101 @@ use \Marando\AstroDate\Epoch;
  * Represents an astronomical coordinate reference frame
  *
  * @property string $name    Name of the reference frame
- * @property Epoch  $equinox Equniox of the reference frame
+ * @property Epoch  $equinox Equinox of the reference frame
  */
-class Frame {
-  //----------------------------------------------------------------------------
-  // Constructors
-  //----------------------------------------------------------------------------
+class Frame
+{
+    //--------------------------------------------------------------------------
+    // Constructors
+    //--------------------------------------------------------------------------
 
-  /**
-   * Creates a new Frame instance
-   *
-   * @param string $name    Name of the frame
-   * @param Epoch  $equinox Epoch of the frame's equinox (if relevant)
-   */
-  protected function __construct($name, Epoch $equinox = null) {
-    $this->name    = $name;
-    $this->equinox = $equinox;
-  }
-
-  // // // Static
-
-  /**
-   * Represents the International Celestial Reference Frame, IRCF
-   * @return static
-   */
-  public static function ICRF() {
-    return new static('ICRF', Epoch::J2000());
-  }
-
-  /**
-   * Represents the Fifth Fundamental Catalogue, FK5
-   *
-   * @param  Epoch  $equinox An optional frame epoch, default is J2000.0
-   * @return static
-   */
-  public static function FK5(Epoch $equinox = null) {
-    return new static('FK5', $equinox ? $equinox : Epoch::J2000());
-  }
-
-  /**
-   * Represents the Fourth Fundamental Catalogue, FK4
-   *
-   * @param  Epoch  $equinox An optional frame epoch, default is B1950.0
-   * @return static
-   */
-  public static function FK4(Epoch $equinox = null) {
-    return new static('FK4', $equinox ? $equinox : Epoch::B1950());
-  }
-
-  //----------------------------------------------------------------------------
-  // Properties
-  //----------------------------------------------------------------------------
-
-  /**
-   * Name of the reference frame
-   * @var string
-   */
-  protected $name;
-
-  /**
-   * Equniox of the reference frame
-   * @var Epoch
-   */
-  protected $equinox;
-
-  public function __get($name) {
-    switch ($name) {
-      case 'name':
-      case 'equinox':
-        return $this->{$name};
+    /**
+     * Creates a new Frame instance
+     *
+     * @param string $name    Name of the frame
+     * @param Epoch  $equinox Epoch of the frame's equinox (if relevant)
+     */
+    private function __construct($name, Epoch $equinox = null)
+    {
+        $this->name    = $name;
+        $this->equinox = $equinox;
     }
-  }
 
-  //----------------------------------------------------------------------------
-  // Functions
-  //----------------------------------------------------------------------------
+    // // // Static
 
-  /**
-   * Represents this instance as a string
-   * @return string
-   */
-  public function __toString() {
-    return "{$this->name}/{$this->equinox}";
-  }
+    /**
+     * Represents the International Celestial Reference Frame, ICRF
+     *
+     * @return static
+     */
+    public static function ICRF()
+    {
+        return new static('ICRF', Epoch::J2000());
+    }
+
+    /**
+     * Represents the Fifth Fundamental Catalogue, FK5
+     *
+     * @param  Epoch $equinox An optional frame epoch, default is J2000.0
+     *
+     * @return static
+     */
+    public static function FK5(Epoch $equinox = null)
+    {
+        return new static('FK5', $equinox ? $equinox : Epoch::J2000());
+    }
+
+    /**
+     * Represents the Fourth Fundamental Catalogue, FK4
+     *
+     * @param  Epoch $equinox An optional frame epoch, default is B1950.0
+     *
+     * @return static
+     */
+    public static function FK4(Epoch $equinox = null)
+    {
+        return new static('FK4', $equinox ? $equinox : Epoch::B1950());
+    }
+
+    //--------------------------------------------------------------------------
+    // Properties
+    //--------------------------------------------------------------------------
+
+    /**
+     * Name of the reference frame
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * Equinox of the reference frame
+     *
+     * @var Epoch
+     */
+    private $equinox;
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'name':
+            case 'equinox':
+                return $this->{$name};
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Functions
+    //--------------------------------------------------------------------------
+
+    /**
+     * Represents this instance as a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{$this->name}/{$this->equinox}";
+    }
 
 }

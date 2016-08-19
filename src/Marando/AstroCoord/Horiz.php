@@ -30,156 +30,153 @@ use \Marando\Units\Distance;
  * @property Angle $az   Azimuth
  * @property Angle $dist Observer to target distance
  */
-class Horiz {
+class Horiz
+{
 
-  use Traits\CopyTrait,
-      Traits\HorizFormat;
+    use Traits\CopyTrait;
+    use Traits\HorizFormat;
 
-  //----------------------------------------------------------------------------
-  // Constants
-  //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Constants
+    //----------------------------------------------------------------------------
 
-  /**
-   * Default Format:
-   * α h -69°38'48".697, A 087°21'04".049
-   */
-  const FORMAT_DEFAULT = '\h Hd°Hm\'Hs".Hu, \A Ad°Am\'As".Au';
+    /**
+     * Default Format:
+     * α h -69°38'48".697, A 087°21'04".049
+     */
+    const FORMAT_DEFAULT = '\h Hd°Hm\'Hs".Hu, \A Ad°Am\'As".Au';
 
-  /**
-   * Full Format:
-   * h -69°38'48".697, A 087°21'04".049, 0.768 AU
-   */
-  const FORMAT_FULL = '\h Hd°Hm\'Hs".Hu, \A Ad°Am\'As".Au, Da';
+    /**
+     * Full Format:
+     * h -69°38'48".697, A 087°21'04".049, 0.768 AU
+     */
+    const FORMAT_FULL = '\h Hd°Hm\'Hs".Hu, \A Ad°Am\'As".Au, Da';
 
-  /**
-   * Degree Format:
-   * h -69.64686°, A 087.35112°
-   */
-  const FORMAT_DEGREES = '\h H°, \A A°';
+    /**
+     * Degree Format:
+     * h -69.64686°, A 087.35112°
+     */
+    const FORMAT_DEGREES = '\h H°, \A A°';
 
-  /**
-   * Spaced Format:
-   * h -69 38 48.697, A 087 21 04.049
-   */
-  const FORMAT_SPACED = '\h Hd Hm Hs.Hu, \A Ad Am As.Au';
+    /**
+     * Spaced Format:
+     * h -69 38 48.697, A 087 21 04.049
+     */
+    const FORMAT_SPACED = '\h Hd Hm Hs.Hu, \A Ad Am As.Au';
 
-  //----------------------------------------------------------------------------
-  // Constructors
-  //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
 
-  /**
-   * Creates a new horizontal coordinate
-   *
-   * @param Angle    $alt  Altitude, 0° = Horizon
-   * @param Angle    $az   Azimuth, 0° = North, 90° = East
-   * @param Distance $dist Observer to target distance
-   */
-  public function __construct(Angle $alt, Angle $az, Distance $dist = null) {
-    // Set position and distance
-    $this->setPosition($alt, $az);
-    $this->setDistance($dist);
+    /**
+     * Creates a new horizontal coordinate
+     *
+     * @param Angle    $alt  Altitude, 0° = Horizon
+     * @param Angle    $az   Azimuth, 0° = North, 90° = East
+     * @param Distance $dist Observer to target distance
+     */
+    public function __construct(Angle $alt, Angle $az, Distance $dist = null)
+    {
+        // Set position and distance
+        $this->setPosition($alt, $az);
+        $this->setDistance($dist);
 
-    // Set default string format
-    $this->format = static::FORMAT_DEFAULT;
-  }
-
-  //----------------------------------------------------------------------------
-  // Properties
-  //----------------------------------------------------------------------------
-
-  /**
-   * Altitude
-   * @var Angle
-   */
-  protected $alt;
-
-  /**
-   * Azimuth
-   * @var Angle
-   */
-  protected $az;
-
-  /**
-   * Observer to target distance
-   * @var Distance
-   */
-  protected $dist;
-
-  public function __get($name) {
-    switch ($name) {
-      case 'alt':
-      case 'az':
-        return $this->{$name};
+        // Set default string format
+        $this->format = static::FORMAT_DEFAULT;
     }
-  }
 
-  public function __set($name, $value) {
-    switch ($name) {
-      case 'alt':
-        return $this->setPosition($value, $this->az);
+    //----------------------------------------------------------------------------
+    // Properties
+    //----------------------------------------------------------------------------
 
-      case 'az':
-        return $this->setPosition($this->alt, $value);
+    /**
+     * Altitude
+     *
+     * @var Angle
+     */
+    protected $alt;
 
-      case 'dist':
-        return $this->setDistance($value);
+    /**
+     * Azimuth
+     *
+     * @var Angle
+     */
+    protected $az;
+
+    /**
+     * Observer to target distance
+     *
+     * @var Distance
+     */
+    protected $dist;
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'alt':
+            case 'az':
+                return $this->{$name};
+        }
     }
-  }
 
-  //----------------------------------------------------------------------------
-  // Functions
-  //----------------------------------------------------------------------------
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'alt':
+                return $this->setPosition($value, $this->az);
 
-  /**
-   * Sets the altitude and azimuth of this instance
-   *
-   * @param  Angle  $alt Altitude, 0° = Horizon
-   * @param  Angle  $az  Azimuth, 0° = North, 90° = East
-   * @return static
-   */
-  public function setPosition(Angle $alt, Angle $az) {
-    $this->alt = $alt;
-    $this->az  = $az;
+            case 'az':
+                return $this->setPosition($this->alt, $value);
 
-    return $this;
-  }
+            case 'dist':
+                return $this->setDistance($value);
+        }
+    }
 
-  /**
-   * Sets the target to observer distance
-   *
-   * @param  Distance $dist
-   * @return static
-   */
-  public function setDistance(Distance $dist) {
-    $this->dist = $dist;
+    //----------------------------------------------------------------------------
+    // Functions
+    //----------------------------------------------------------------------------
 
-    return $this;
-  }
+    /**
+     * Sets the altitude and azimuth of this instance
+     *
+     * @param  Angle $alt Altitude, 0° = Horizon
+     * @param  Angle $az  Azimuth, 0° = North, 90° = East
+     *
+     * @return static
+     */
+    public function setPosition(Angle $alt, Angle $az)
+    {
+        $this->alt = $alt;
+        $this->az  = $az;
 
-  /**
-   * Sets the topographic observation point of this instance
-   *
-   * @param  Geo    $geo
-   * @return static
-   */
-  //public function setTopo(Geo $geo) {
-  //throw new Exception('Not implemented');
+        return $this;
+    }
 
-  /**
-   * 1. Convert this from Alt/Az Topo to Geocentric RA/Dec
-   * 2. Convert Geocentric to topo Alt/Az
-   */
-  //$this->topo = $geo;
-  //return $this;
-  //}
-  // // // Overrides
+    /**
+     * Sets the target to observer distance
+     *
+     * @param  Distance $dist
+     *
+     * @return static
+     */
+    public function setDistance(Distance $dist)
+    {
+        $this->dist = $dist;
 
-  /**
-   * Represents this instance as a string
-   * @return string
-   */
-  public function __toString() {
-    return $this->format($this->format);
-  }
+        return $this;
+    }
+
+    // // // Overrides
+
+    /**
+     * Represents this instance as a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->format($this->format);
+    }
 
 }

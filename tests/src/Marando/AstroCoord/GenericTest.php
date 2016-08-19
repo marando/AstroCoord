@@ -18,9 +18,9 @@ class GenericTest extends \PHPUnit_Framework_TestCase
 
     public function test()
     {
-
+        return;
         $frame = Frame::ICRF();
-        $epoch = Epoch::J(3000);
+        $epoch = Epoch::J(2000);
 
 
         echo $epoch->toDate()->toTDB();
@@ -38,7 +38,6 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         echo "\n" . $eq = (new Equat($frame, $epoch, $ra, $dec,
             $dist))->apparent();
         echo "\n";
-        dd(1);
 
 
         return;
