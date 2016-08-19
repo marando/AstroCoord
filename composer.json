@@ -2,13 +2,14 @@
   "name": "marando/astrocoord",
   "description": "A PHP package of objects representing astronomical coordinate systems",
   "require": {
-    "marando/units": "^0.3.2",
-    "marando/astrodate": "^1.0.3",
-    "marando/php-sofa": "^0.2.5",
-    "marando/php-iers": "^0.1.5"
+    "marando/units": "^0.3.4",
+    "marando/astrodate": "^1.0",
+    "marando/php-sofa": "^0.2.6",
+    "marando/php-iers": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.0"
+    "phpunit/phpunit": "^5.0",
+    "symfony/var-dumper": "*"
   },
   "license": "GNU2",
   "authors": [
